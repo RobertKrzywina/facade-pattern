@@ -3,18 +3,10 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Some title</title>
+    <title>Homepage</title>
 </head>
 <body>
-    <h1>Hello world!</h1>
-    <h1 th:text="${works}">msg</h1>
-    <a th:href="@{/secret}">Go to the secret page!</a>
-    <div th:if="${person!=null}">
-        <p th:text="${person.id}"></p><br>
-        <p th:text="${person.firstName}"></p><br>
-        <p th:text="${person.lastName}"></p><br>
-        <p th:text="${person.age}"></p><br>
-        It works :)
-    </div>
+    <h1>-- Homepage --</h1>
+    <a th:href="@{/register}">Create new account!</a>
 </body>
 </html>
