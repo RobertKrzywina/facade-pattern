@@ -4,24 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Add person</title>
+    <link rel="stylesheet" type="text/css" th:href="@{style.css}"/>
 </head>
 <body>
     <form action="#" method="post" th:action="@{/register}" th:object="${user}">
-        <p th:if="${#fields.hasErrors('user.firstName')}" th:errors="*{user.firstName}"></p>
-        <label>first name: <input type="text" placeholder="first name" th:field="*{user.firstName}"></label><br>
+        <div th:class="fieldsValidation">
+            <label>first name: <input type="text" placeholder="first name" th:field="*{user.firstName}"></label><br>
+            <p th:if="${#fields.hasErrors('user.firstName')}" th:errors="*{user.firstName}"></p>
 
-        <p th:if="${#fields.hasErrors('user.lastName')}" th:errors="*{user.lastName}"></p>
-        <label>last name: <input type="text" placeholder="last name" th:field="*{user.lastName}"></label><br>
+            <label>last name: <input type="text" placeholder="last name" th:field="*{user.lastName}"></label><br>
+            <p th:if="${#fields.hasErrors('user.lastName')}" th:errors="*{user.lastName}"></p>
 
-        <p th:if="${#fields.hasErrors('user.email')}" th:errors="*{user.email}"></p>
-        <label>last name: <input type="email" placeholder="email" th:field="*{user.email}"></label><br>
+            <label>email: <input type="text" placeholder="email" th:field="*{user.email}"></label><br>
+            <p th:if="${#fields.hasErrors('user.email')}" th:errors="*{user.email}"></p>
 
-        <p th:if="${#fields.hasErrors('user.username')}" th:errors="*{user.username}"></p>
-        <label>last name: <input type="text" placeholder="username" th:field="*{user.username}"></label><br>
+            <label>username: <input type="text" placeholder="username" th:field="*{user.username}"></label><br>
+            <p th:if="${#fields.hasErrors('user.username')}" th:errors="*{user.username}"></p>
 
-        <p th:if="${#fields.hasErrors('user.password')}" th:errors="*{user.password}"></p>
-        <label>last name: <input type="password" placeholder="password" th:field="*{user.password}"></label><br>
-        <input type="submit" value="Add">
+            <label>password: <input type="password" placeholder="password" th:field="*{user.password}"></label><br>
+            <p th:if="${#fields.hasErrors('user.password')}" th:errors="*{user.password}"></p>
+
+            <input type="submit" value="Register">
+        </div>
     </form>
     <a th:href="@{/}">Back to the home page!</a>
 </body>

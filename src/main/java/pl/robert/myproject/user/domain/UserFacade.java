@@ -2,6 +2,10 @@ package pl.robert.myproject.user.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+
+import java.util.List;
 
 @Component
 public class UserFacade {
@@ -27,20 +31,16 @@ public class UserFacade {
         this.userValidator = userValidator;
     }
 
-    public void add(User user) {
-        if(validate(user)) {
-            userRepository.save(user);
-        } else {
-            // Place for PersonExceptions class!
-            System.out.println("some error");
-        }
-    }
-
-    private boolean validate(User user) {
+    public void addUser(User user, BindingResult result) {
         if (userValidator.supports(User.class)) {
-            // Place for validate method!
-            return true;
+            userValidator.validate(user, result);
+            if (result.hasErrors()) {
+                List<ObjectError> errors = result.getAllErrors();
+                System.out.println("Total errors: " + errors.size());
+                errors.forEach(err -> System.out.println(err.getDefaultMessage()));
+            } else {
+                userRepository.save(user);
+            }
         }
-        return false;
     }
 }

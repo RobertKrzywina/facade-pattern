@@ -3,7 +3,7 @@ package pl.robert.myproject.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,13 +28,14 @@ class UserController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String add(@ModelAttribute @Valid UserFacade facade,
-                      Errors errors,
+    public String add(@Valid @ModelAttribute("user") UserFacade facade,
+                      BindingResult result,
                       Model model) {
-        if (errors.hasErrors()) {
+        userFacade.addUser(facade.getUser(), result);
+        if (result.hasErrors()) {
+            model.addAttribute("user", facade);
             return "register-user";
         } else {
-            userFacade.add(facade.getUser());
             model.addAttribute("user", facade.getUser());
             return "register-user-success";
         }

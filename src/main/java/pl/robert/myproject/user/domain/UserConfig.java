@@ -13,8 +13,8 @@ class UserConfig {
 
     @Bean
     UserFacade facade(User user,
-                        UserValidator validation,
-                        UserRepository repository) {
-        return new UserFacade(user, repository, new UserValidator());
+                      UserRepository repository,
+                      UserValidator validation) {
+        return new UserFacade(user, repository, validation);
     }
 }

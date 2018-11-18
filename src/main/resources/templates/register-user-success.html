@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Account created!</h1>
-    <div th:if="${user!=null}">
+    <div th:object="${user}">
         <h1>Details: </h1>
         <p th:text="${user.id}"></p><br>
         <p th:text="${user.firstName}"></p><br>
