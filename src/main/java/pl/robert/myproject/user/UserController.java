@@ -21,12 +21,6 @@ class UserController {
         this.userFacade = userFacade;
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String register(Model model) {
-        model.addAttribute("user", new UserFacade());
-        return "register-user";
-    }
-
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String add(@Valid @ModelAttribute("user") UserFacade facade,
                       BindingResult result,
@@ -38,6 +32,20 @@ class UserController {
         } else {
             model.addAttribute("user", facade.getUser());
             return "register-user-success";
+        }
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(@Valid @ModelAttribute("user") UserFacade facade,
+                        BindingResult result,
+                        Model model) {
+        userFacade.login(facade.getUser(), result);
+        if (result.hasErrors()) {
+            model.addAttribute("user", facade);
+            return "login-user";
+        } else {
+            model.addAttribute("user", facade.getUser());
+            return "login-user-success";
         }
     }
 }

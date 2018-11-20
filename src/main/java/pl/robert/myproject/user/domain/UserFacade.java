@@ -43,4 +43,8 @@ public class UserFacade {
             }
         }
     }
+
+    public void login(User user, BindingResult result) {
+
+    }
 }

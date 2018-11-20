@@ -11,8 +11,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity(name = "users")
-@Setter
-@Getter
+@Setter @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 class User implements Serializable {
@@ -24,13 +23,7 @@ class User implements Serializable {
 
     @NotNull
     @Size(min = 3, max = 13)
-    @Column(name = "first_name")
-    private String firstName;
-
-    @NotNull
-    @Size(min = 3, max = 13)
-    @Column(name = "last_name")
-    private String lastName;
+    private String name;
 
     @NotNull
     @Column(unique = true)
