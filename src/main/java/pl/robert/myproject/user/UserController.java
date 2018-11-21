@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.robert.myproject.user.domain.UserFacade;
+import pl.robert.myproject.user.domain.exceptions.UserException;
 
 import javax.validation.Valid;
 
@@ -24,7 +25,7 @@ class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String add(@Valid @ModelAttribute("user") UserFacade facade,
                       BindingResult result,
-                      Model model) {
+                      Model model) throws UserException {
         userFacade.addUser(facade.getUser(), result);
         if (result.hasErrors()) {
             model.addAttribute("user", facade);
@@ -38,7 +39,7 @@ class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@Valid @ModelAttribute("user") UserFacade facade,
                         BindingResult result,
-                        Model model) {
+                        Model model) throws UserException {
         userFacade.login(facade.getUser(), result);
         if (result.hasErrors()) {
             model.addAttribute("user", facade);

@@ -3,6 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <title>Login admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
     <link rel="stylesheet" type="text/css" th:href="@{style.css}"/>
@@ -25,19 +26,19 @@
         <div class="row main">
             <div class="panel-heading">
                 <div class="panel-title text-center">
-                    <h1 class="title">Login</h1>
+                    <h1 class="title">ADMIN LOGIN - IF U ARE NOT ADMIN, BETTER LEAVE FROM HERE!</h1>
                     <hr />
                 </div>
             </div>
             <div class="main-login main-center">
-                <form class="form-horizontal" method="post" action="#" th:action="@{/login}" th:object="${user}">
+                <form class="form-horizontal" method="post" action="#" th:action="@{/admin-login}" th:object="${admin}">
                     <div class="form-group">
                         <label for="username" class="cols-sm-2 control-label">Username</label>
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
                                 <input type="text" class="form-control" name="username" id="username"  placeholder="Name"
-                                       th:field="*{user.username}"/>
+                                       th:field="*{admin.username}"/>
                             </div>
                         </div>
                     </div>
@@ -48,19 +49,18 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
                                 <input type="password" class="form-control" name="password" id="password"  placeholder="Password"
-                                       th:field="*{user.password}"/>
+                                       th:field="*{admin.password}"/>
                             </div>
                         </div>
                     </div>
                     <div th:class="fieldsValidation">
-                        <p th:if="${#fields.hasErrors('user.password')}" th:errors="*{user.password}"></p>
+                        <p th:if="${#fields.hasErrors('admin.password')}" th:errors="*{admin.password}"></p>
                     </div>
 
                     <div class="form-group ">
                         <input type="submit" class="btn btn-primary btn-lg btn-block login-button" value="Sing in">
                     </div>
                     <div class="login-register">
-                        <a th:href="@{/register}">Create account</a><br>
                         <a th:href="@{/}">Back to the homepage</a>
                     </div>
                 </form>

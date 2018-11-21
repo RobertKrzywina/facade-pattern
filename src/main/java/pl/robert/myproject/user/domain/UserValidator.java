@@ -1,6 +1,7 @@
 package pl.robert.myproject.user.domain;
 
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -18,6 +19,7 @@ class UserValidator implements Validator {
     private static final String EMAIL_FILED = "email.field";
     private static final String LENGTH_FIELD = "length.field";
     private static final String ALREADY_EXISTS = "exists.field";
+    private static final String LOGIN_FIELD = "login.field";
 
     private static final String FIRST_NAME_REQUIRED = "Enter your name";
     private static final String EMAIL_REQUIRED = "Enter your e-mail";
@@ -29,6 +31,7 @@ class UserValidator implements Validator {
     private static final String WRONG_EMAIL_FORMAT = "Enter a valid email address";
     private static final String USER_ALREADY_EXISTS = "This username is already used by other user";
     private static final String EMAIL_ALREADY_EXISTS = "This email address is already used by other user";
+    private static final String WRONG_LOGIN = "Wrong username or password";
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -73,11 +76,25 @@ class UserValidator implements Validator {
         return email.matches("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$");
     }
 
+    void validateLogin(User user, BindingResult result) {
+        if (!isUsernameExists(user.getUsername())) {
+            result.rejectValue("user.password", LOGIN_FIELD, WRONG_LOGIN);
+        } else {
+            if (!isPasswordExists(user.getPassword())) {
+                result.rejectValue("user.password", LOGIN_FIELD, WRONG_LOGIN);
+            }
+        }
+    }
+
     private boolean isEmailExists(String email) {
         return userRepo.findByEmail(email) != null;
     }
 
     private boolean isUsernameExists(String username) {
         return userRepo.findByUsername(username) != null;
+    }
+
+    private boolean isPasswordExists(String password) {
+        return userRepo.findByPassword(password) != null;
     }
 }

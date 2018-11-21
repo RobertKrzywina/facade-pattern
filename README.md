@@ -1,0 +1,1 @@
+# _facade pattern_

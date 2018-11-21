@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import pl.robert.myproject.user.domain.exceptions.UserException;
 
 import java.util.List;
 
@@ -31,20 +32,37 @@ public class UserFacade {
         this.userValidator = userValidator;
     }
 
-    public void addUser(User user, BindingResult result) {
+    public void addUser(User user, BindingResult result) throws UserException {
         if (userValidator.supports(User.class)) {
             userValidator.validate(user, result);
             if (result.hasErrors()) {
-                List<ObjectError> errors = result.getAllErrors();
-                System.out.println("Total errors: " + errors.size());
-                errors.forEach(err -> System.out.println(err.getDefaultMessage()));
+                showErrors(result);
             } else {
                 userRepository.save(user);
             }
+        } else {
+            throw new UserException();
         }
     }
 
-    public void login(User user, BindingResult result) {
+    public void login(User user, BindingResult result) throws UserException {
+        if (userValidator.supports(User.class)) {
+            userValidator.validateLogin(user, result);
+            if (result.hasErrors()) {
+                showErrors(result);
+            }
+        } else {
+            throw new UserException();
+        }
+    }
 
+    private void showErrors(BindingResult result) {
+        List<ObjectError> errors = result.getAllErrors();
+        System.out.println("Total errors: " + errors.size());
+        errors.forEach(err -> System.out.println(err.getDefaultMessage()));
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }

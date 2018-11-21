@@ -2,8 +2,10 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: postgres
+    #password: postgres
+    password: admin
     driver-class-name: org.postgresql.Driver
+    initialization-mode: always
   jpa:
     hibernate:
       ddl-auto: create
@@ -14,3 +16,5 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+  main:
+    allow-bean-definition-overriding: true

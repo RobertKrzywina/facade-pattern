@@ -1,4 +1,4 @@
-package pl.robert.myproject.user.domain;
+package pl.robert.myproject.admin.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,35 +6,38 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-@Entity(name = "users")
+@Entity(name = "admins")
 @Setter @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-class User implements Serializable {
-    private static final long serialVersionUID = 101L;
+class Admin implements Serializable {
+    private static final long serialVersionUID = 100L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @Size(min = 3, max = 13)
     private String name;
+
+    @NotNull
+    @Min(18)
+    @Max(65)
+    private int age;
 
     @NotNull
     @Column(unique = true)
     private String email;
 
     @NotNull
-    @Size(min = 3, max = 13)
     @Column(unique = true)
     private String username;
 
     @NotNull
-    @Size(min = 6, max = 30)
     private String password;
 }

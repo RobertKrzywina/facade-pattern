@@ -3,11 +3,11 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login success</title>
+    <title>Admin panel</title>
 </head>
 <body>
-    <div th:object="${user}">
-        <h1>Hi <i th:text="${user.username}"></i></h1>
+    <div th:object="${admin}">
+        <h1>Welcome to the admin panel <i th:text="${admin.username}"></i></h1>
     </div>
     <a th:href="@{/}">Back to the homepage</a>
 </body>
