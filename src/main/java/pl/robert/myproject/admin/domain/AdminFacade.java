@@ -1,5 +1,6 @@
 package pl.robert.myproject.admin.domain;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
@@ -10,6 +11,7 @@ import pl.robert.myproject.user.domain.UserFacade;
 import java.util.List;
 
 @Component
+@Getter
 public class AdminFacade {
 
     private Admin admin;
@@ -29,14 +31,6 @@ public class AdminFacade {
         this.userFacade = userFacade;
     }
 
-    public Admin getAdmin() {
-        return admin;
-    }
-
-    public UserFacade getUserFacade() {
-        return userFacade;
-    }
-
     public void login(Admin admin, BindingResult result) throws AdminException {
         if (adminValidator.supports(Admin.class)) {
             adminValidator.validate(admin, result);
@@ -46,10 +40,6 @@ public class AdminFacade {
         } else {
             throw new AdminException();
         }
-    }
-
-    public void adminPanel() {
-
     }
 
     private void showErrors(BindingResult result) {

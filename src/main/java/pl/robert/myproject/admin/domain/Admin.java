@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -26,8 +24,6 @@ class Admin implements Serializable {
     private String name;
 
     @NotNull
-    @Min(18)
-    @Max(65)
     private int age;
 
     @NotNull

@@ -4,10 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin panel</title>
+    <link rel="stylesheet" type="text/css" th:href="@{style.css}"/>
 </head>
 <body>
     <div th:object="${admin}">
         <h1>Welcome to the admin panel <i th:text="${admin.username}"></i></h1>
+    </div>
+    <div th:if="${!allUsers.isEmpty()}">
+        <table border="1">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Delete user</th>
+            </tr>
+            <tr th:each="u:${allUsers}">
+                <th th:text="${u.id}"></th>
+                <th th:text="${u.name}"></th>
+                <th th:text="${u.email}"></th>
+                <th th:text="${u.username}"></th>
+                <th th:text="${u.password}"></th>
+                <th><a th:href="@{/delete-user(userId=${u.id})}">Delete</a></th>
+            </tr>
+        </table>
     </div>
     <a th:href="@{/}">Back to the homepage</a>
 </body>

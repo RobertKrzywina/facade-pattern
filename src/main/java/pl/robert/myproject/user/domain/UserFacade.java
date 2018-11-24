@@ -23,11 +23,15 @@ public class UserFacade {
         return user;
     }
 
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
     @Autowired
-    public UserFacade(User person,
+    public UserFacade(User user,
                       UserRepository userRepository,
                       UserValidator userValidator) {
-        this.user = person;
+        this.user = user;
         this.userRepository = userRepository;
         this.userValidator = userValidator;
     }
@@ -39,6 +43,7 @@ public class UserFacade {
                 showErrors(result);
             } else {
                 userRepository.save(user);
+                updateId();
             }
         } else {
             throw new UserException();
@@ -56,13 +61,25 @@ public class UserFacade {
         }
     }
 
+    public void deleteUser(String id) {
+        User user = userRepository.getById(Long.parseLong(id));
+        userRepository.delete(user);
+        updateId();
+    }
+
+    private void updateId() {
+        List<User> users = findAll();
+        Long checker = 0L;
+        for (User user : users) {
+            if (!user.getId().equals(++checker)) {
+                userRepository.updateUserId(checker, user.getId());
+            }
+        }
+    }
+
     private void showErrors(BindingResult result) {
         List<ObjectError> errors = result.getAllErrors();
         System.out.println("Total errors: " + errors.size());
         errors.forEach(err -> System.out.println(err.getDefaultMessage()));
-    }
-
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
     }
 }
