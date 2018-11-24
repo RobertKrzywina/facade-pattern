@@ -4,24 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Login admin</title>
-    <title>Login</title>
     <link rel="stylesheet" type="text/css" th:href="@{style.css}"/>
-
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-
-    <!-- Website Font style -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-
-    <!-- Fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
 </head>
 <body>
     <div class="container">
         <div class="row main">
             <div class="panel-heading">
                 <div class="panel-title text-center">
-                    <h1 class="title">ADMIN LOGIN - IF U ARE NOT ADMIN, BETTER LEAVE FROM HERE!</h1>
+                    <h1 class="title">Admin login</h1>
                     <hr />
                 </div>
             </div>
@@ -56,7 +48,7 @@
                         <input type="submit" class="btn btn-primary btn-lg btn-block login-button" value="Sing in">
                     </div>
                     <div class="login-register">
-                        <a th:href="@{/}">Back to the homepage</a>
+                        <p><a th:href="@{/}">Back to the homepage</a></p>
                     </div>
                 </form>
             </div>

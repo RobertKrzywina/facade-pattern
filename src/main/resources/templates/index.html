@@ -4,11 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Homepage</title>
+    <link rel="stylesheet" type="text/css" th:href="@{style.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-    <h1>-- Homepage --</h1>
-    <a th:href="@{/register}">Create new account!</a><br>
-    <a th:href="@{/login}">Login</a><br>
-    <a th:href="@{/login-admin}">Admin panel</a>
+    <div class="outer-div">
+        <div class="inner-div">
+            <h1>Welcome to the Home page!</h1>
+            <hr />
+            <p><a th:href="@{/register}">Register</a></p>
+            <p><a th:href="@{/login}">Login</a></p>
+            <p><a th:href="@{/login-admin}">Admin panel</a></p>
+        </div>
+    </div>
 </body>
 </html>

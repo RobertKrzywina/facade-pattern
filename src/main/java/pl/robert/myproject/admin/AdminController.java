@@ -36,7 +36,6 @@ class AdminController {
             model.addAttribute("admin", facade);
             return "login-admin";
         } else {
-            model.addAttribute("admin", facade.getAdmin());
             model.addAttribute("allUsers", userFacade.findAll());
             return "admin-panel";
         }
@@ -47,7 +46,6 @@ class AdminController {
                              AdminFacade adminFacade,
                              Model model) {
         userFacade.deleteUser(id);
-        model.addAttribute("admin", adminFacade.getAdmin());
         model.addAttribute("allUsers", userFacade.findAll());
         return "admin-panel";
     }

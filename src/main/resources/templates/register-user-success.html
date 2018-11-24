@@ -4,16 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Register success</title>
+    <link rel="stylesheet" type="text/css" th:href="@{style.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-    <h1>Account created!</h1>
-    <div th:object="${user}">
-        <h1>Details: </h1>
-        <p th:text="${user.name}"></p><br>
-        <p th:text="${user.email}"></p><br>
-        <p th:text="${user.username}"></p><br>
-        <p th:text="${user.password}"></p><br>
+    <div class="outer-div" style="margin: auto;">
+        <div class="inner-div">
+            <h1>Account created!</h1>
+            <hr />
+            <div th:object="${user}">
+                <h1>Details: </h1>
+                Your name: <p class="red-font" th:text="${user.name}"></p>
+                Your email: <p class="red-font" th:text="${user.email}"></p>
+                Your username: <p class="red-font" th:text="${user.username}"></p>
+                Your password: <p class="red-font" th:text="${user.password}"></p>
+            </div>
+            <a th:href="@{/}">Back to the homepage!</a>
+        </div>
     </div>
-    <a th:href="@{/}">Back to the homepage!</a>
 </body>
 </html>
