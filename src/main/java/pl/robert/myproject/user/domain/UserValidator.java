@@ -1,7 +1,7 @@
 package pl.robert.myproject.user.domain;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -11,6 +11,7 @@ class UserValidator implements Validator {
 
     private UserRepository userRepo;
 
+    @Autowired
     public UserValidator(UserRepository userRepo) {
         this.userRepo = userRepo;
     }
@@ -40,11 +41,20 @@ class UserValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
+
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "user.name", REQUIRED_FIELD, FIRST_NAME_REQUIRED);
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "user.email", REQUIRED_FIELD, EMAIL_REQUIRED);
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "user.username", REQUIRED_FIELD, USERNAME_REQUIRED);
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "user.password", REQUIRED_FIELD, PASSWORD_REQUIRED);
 
+        validateMethod(target, errors);
+    }
+
+    void validateREST(Object target, Errors errors) {
+        validateMethod(target, errors);
+    }
+
+    private void validateMethod(Object target, Errors errors) {
         User user = (User) target;
 
         if (user.getName().length() < 3 || user.getName().length() > 13) {
@@ -76,12 +86,14 @@ class UserValidator implements Validator {
         return email.matches("^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$");
     }
 
-    void validateLogin(User user, BindingResult result) {
+    void validateLogin(Object target, Errors errors) {
+        User user = (User) target;
+
         if (!isUsernameExists(user.getUsername())) {
-            result.rejectValue("user.password", LOGIN_FIELD, WRONG_LOGIN);
+            errors.rejectValue("user.password", LOGIN_FIELD, WRONG_LOGIN);
         } else {
             if (!isPasswordExists(user.getPassword())) {
-                result.rejectValue("user.password", LOGIN_FIELD, WRONG_LOGIN);
+                errors.rejectValue("user.password", LOGIN_FIELD, WRONG_LOGIN);
             }
         }
     }

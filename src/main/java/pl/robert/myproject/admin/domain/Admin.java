@@ -7,14 +7,12 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 @Entity(name = "admins")
 @Setter @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-class Admin implements Serializable {
-    private static final long serialVersionUID = 100L;
+class Admin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

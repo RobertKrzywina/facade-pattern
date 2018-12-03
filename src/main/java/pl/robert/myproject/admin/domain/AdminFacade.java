@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import pl.robert.myproject.admin.domain.dto.AdminDTO;
 import pl.robert.myproject.admin.domain.exceptions.AdminException;
 import pl.robert.myproject.user.domain.UserFacade;
 
@@ -31,7 +32,31 @@ public class AdminFacade {
         this.userFacade = userFacade;
     }
 
+    private Admin createAdminFromDTO(AdminDTO dto) {
+        Admin admin = new Admin();
+
+        admin.setId(dto.getId());
+        admin.setName(dto.getName());
+        admin.setAge(dto.getAge());
+        admin.setEmail(dto.getEmail());
+        admin.setUsername(dto.getUsername());
+        admin.setPassword(dto.getPassword());
+
+        return admin;
+    }
+
     public void login(Admin admin, BindingResult result) throws AdminException {
+        loginMethod(admin, result);
+    }
+
+    public void loginREST(AdminDTO adminDto, BindingResult result) throws AdminException  {
+
+        Admin admin = createAdminFromDTO(adminDto);
+
+        loginMethod(admin, result);
+    }
+
+    private void loginMethod(Admin admin, BindingResult result) throws AdminException {
         if (adminValidator.supports(Admin.class)) {
             adminValidator.validate(admin, result);
             if (result.hasErrors()) {

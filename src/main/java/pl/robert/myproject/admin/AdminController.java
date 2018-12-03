@@ -43,7 +43,6 @@ class AdminController {
 
     @RequestMapping(value = "/delete-user", method = RequestMethod.GET)
     public String deleteUser(@RequestParam(name = "userId") String id,
-                             AdminFacade adminFacade,
                              Model model) {
         userFacade.deleteUser(id);
         model.addAttribute("allUsers", userFacade.findAll());

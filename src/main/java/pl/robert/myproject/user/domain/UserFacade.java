@@ -1,14 +1,17 @@
 package pl.robert.myproject.user.domain;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import pl.robert.myproject.user.domain.dto.UserDTO;
 import pl.robert.myproject.user.domain.exceptions.UserException;
 
 import java.util.List;
 
 @Component
+@Getter
 public class UserFacade {
 
     private User user;
@@ -17,14 +20,6 @@ public class UserFacade {
 
     public UserFacade() {
         user = new User();
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public List<User> findAll() {
-        return userRepository.findAll();
     }
 
     @Autowired
@@ -36,7 +31,19 @@ public class UserFacade {
         this.userValidator = userValidator;
     }
 
-    public void addUser(User user, BindingResult result) throws UserException {
+    private User createUserFromDTO(UserDTO dto) {
+        User user = new User();
+
+        user.setId(dto.getId());
+        user.setName(dto.getName());
+        user.setEmail(dto.getEmail());
+        user.setUsername(dto.getUsername());
+        user.setPassword(dto.getPassword());
+
+        return user;
+    }
+
+    public void registerUser(User user, BindingResult result) throws UserException {
         if (userValidator.supports(User.class)) {
             userValidator.validate(user, result);
             if (result.hasErrors()) {
@@ -50,7 +57,43 @@ public class UserFacade {
         }
     }
 
+    public void registerUserREST(UserDTO userDto, BindingResult result) throws UserException {
+
+        User user = createUserFromDTO(userDto);
+
+        if (userValidator.supports(User.class)) {
+            userValidator.validateREST(user, result);
+            if (result.hasErrors()) {
+                showErrors(result);
+            } else {
+                userRepository.save(user);
+                updateId();
+            }
+        } else {
+            throw new UserException();
+        }
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public User getUserById(long id) {
+        return userRepository.getById(id);
+    }
+
     public void login(User user, BindingResult result) throws UserException {
+        loginMethod(user, result);
+    }
+
+    public void loginREST(UserDTO userDto, BindingResult result) throws UserException {
+
+        User user = createUserFromDTO(userDto);
+
+        loginMethod(user, result);
+    }
+
+    private void loginMethod(User user, BindingResult result) throws UserException {
         if (userValidator.supports(User.class)) {
             userValidator.validateLogin(user, result);
             if (result.hasErrors()) {
@@ -59,6 +102,10 @@ public class UserFacade {
         } else {
             throw new UserException();
         }
+    }
+
+    public void deleteAllUsers() {
+        userRepository.deleteAll();;
     }
 
     public void deleteUser(String id) {
