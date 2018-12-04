@@ -4,11 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin panel</title>
+    <link rel="stylesheet" type="text/css" th:href="@{style.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-    <div th:object="${admin}">
-        <h1>Welcome to the admin panel <i th:text="${admin.username}"></i></h1>
+    <h1>Welcome to the admin panel</h1>
+    <div th:if="${!allUsers.isEmpty()}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Username</th>
+                <th scope="col">Password</th>
+                <th scope="col">Method</th>
+            </tr>
+            </thead>
+            <tbody th:each="u:${allUsers}">
+            <tr>
+                <td th:text="${u.id}"></td>
+                <td th:text="${u.name}"></td>
+                <td th:text="${u.email}"></td>
+                <td th:text="${u.username}"></td>
+                <td th:text="${u.password}"></td>
+                <td><a th:href="@{/delete-user(userId=${u.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <p><a th:href="@{/}">Back to the homepage</a></p>
     </div>
-    <a th:href="@{/}">Back to the homepage</a>
 </body>
 </html>

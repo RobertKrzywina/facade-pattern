@@ -7,8 +7,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.robert.myproject.admin.domain.AdminFacade;
 import pl.robert.myproject.admin.domain.exceptions.AdminException;
+import pl.robert.myproject.user.domain.UserFacade;
 
 import javax.validation.Valid;
 
@@ -16,13 +18,16 @@ import javax.validation.Valid;
 class AdminController {
 
     private AdminFacade adminFacade;
+    private UserFacade userFacade;
 
     @Autowired
-    public AdminController(AdminFacade adminFacade) {
+    public AdminController(AdminFacade adminFacade,
+                           UserFacade userFacade) {
         this.adminFacade = adminFacade;
+        this.userFacade = userFacade;
     }
 
-    @RequestMapping(value = "/admin-login", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin-panel", method = RequestMethod.POST)
     public String login(@Valid @ModelAttribute("admin") AdminFacade facade,
                         BindingResult result,
                         Model model) throws AdminException {
@@ -31,8 +36,16 @@ class AdminController {
             model.addAttribute("admin", facade);
             return "login-admin";
         } else {
-            model.addAttribute("admin", facade.getAdmin());
+            model.addAttribute("allUsers", userFacade.findAll());
             return "admin-panel";
         }
+    }
+
+    @RequestMapping(value = "/delete-user", method = RequestMethod.GET)
+    public String deleteUser(@RequestParam(name = "userId") String id,
+                             Model model) {
+        userFacade.deleteUser(id);
+        model.addAttribute("allUsers", userFacade.findAll());
+        return "admin-panel";
     }
 }

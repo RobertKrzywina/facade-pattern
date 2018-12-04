@@ -26,7 +26,7 @@ class UserController {
     public String add(@Valid @ModelAttribute("user") UserFacade facade,
                       BindingResult result,
                       Model model) throws UserException {
-        userFacade.addUser(facade.getUser(), result);
+        userFacade.registerUser(facade.getUser(), result);
         if (result.hasErrors()) {
             model.addAttribute("user", facade);
             return "register-user";
